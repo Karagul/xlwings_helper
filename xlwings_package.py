@@ -101,8 +101,6 @@ def map_df_col_to_new_id(df, col, new_col_name, df2, id_col, map_col):
     df = map_df_column_to_dict(df, col, map_dict, new_col_name)
     return df
 
-
-
 def alpha_from_index(integer):
 
     integer += 1
@@ -327,6 +325,7 @@ def move_last_column_to_first(df):
     cols = cols[-1:] + cols[:-1]
     df = df[cols]
     return df
+    
 def get_column(ws, col_index, nested = True):
 
     '''gets a column from the ws'''
