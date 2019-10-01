@@ -186,11 +186,6 @@ def sort_ws(ws, column_alphas):
     #print (df)
     write_df_to_ws(ws, df)
 
-def check_column_in_list(df, column, list, new_column):
-    '''returns a dataframe with a boolean value in new column if the row had one of those value or not'''
-
-    df[new_column] = df[column].isin(list)
-    return df
 
 def add_sheet(sheet_name, work_book):
 
