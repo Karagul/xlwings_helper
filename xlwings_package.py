@@ -103,50 +103,42 @@ def map_df_col_to_new_id(df, col, new_col_name, df2, id_col, map_col):
 
 def alpha_from_index(integer):
 
+    '''Takes a 0-based index (integer) and returns the corresponding column header'''
+
+    lengths = [1,2,3,4,5,6,7]
+    contained_in_lengths = []
+    for i in lengths:
+        contained_in_lengths.append(26 ** i)
+
     integer += 1
-    nums = [0,1,2,3,4,5,6,7]
-    mults = []
-    summation = []
-    for i in nums:
-        mult = 26 ** i
-        mults.append(mult)
 
-        sum = 0
-        for x in summation:
-            sum += x
+    integer_copy = integer
+    num_digits = lengths[-1]
+    for i in range(len(contained_in_lengths)):
+        integer_copy -= contained_in_lengths[i]
 
-        sum += (mult)
-        summation.append(sum)
-
-    digits = 0
-    sum = 0
-    #print (mults)
-    #print (summation)
-
-    for i in range(len(summation)):
-
-        if integer < summation[i + 1] and integer >= summation[i]:
-            #this is the right index
-            digits = i + 1
+        if integer_copy <= 0:
+            num_digits = i + 1
             break
 
-    #floor division
-    #print (digits)
-    alphas = ['', ] * digits
-    remaining = integer
-
+    digits = ['',] * num_digits
     alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    for i in range(digits):
 
-        reverse_ind = digits - i - 1
+    breakdown = [0,] * num_digits
+    digits = [0,] * num_digits
+    for i in range(num_digits):
 
-        floor_div = remaining // mults[reverse_ind]
-        alphas[i] = alpha[int(floor_div) - 1]
-        remaining -= floor_div * (mults[reverse_ind])
+        breakdown[i] = integer % (contained_in_lengths[i])
+        if breakdown[i] == 0:
+            breakdown[i] = contained_in_lengths[i]
+        integer -= breakdown[i]
+        digits[i] = breakdown[i] / (26**i)
 
-    #print (alphas)
-
-    return ''.join(alphas)
+    string = ''
+    digits.reverse()
+    for i in digits:
+        string += alpha[int(i) - 1]
+    return string
 
 def alphas_from_index_list(ints):
 
@@ -325,7 +317,7 @@ def move_last_column_to_first(df):
     cols = cols[-1:] + cols[:-1]
     df = df[cols]
     return df
-    
+
 def get_column(ws, col_index, nested = True):
 
     '''gets a column from the ws'''
