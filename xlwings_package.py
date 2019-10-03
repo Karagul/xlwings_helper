@@ -4,11 +4,13 @@ import pandas as pd
 import sys
 #this is a test
 try:
+    #personal
     sys.path.append('''C:/Users/james/Dropbox/Python/Analytics''')
 except:
     pass
 
 try:
+    #work
     sys.path.append('''C:/Users/e150445/Documents/Analytics''')
 except:
     pass
@@ -64,6 +66,20 @@ def keep_these_rows(df, locs):
 
     df = df.loc(locs)
     return df
+
+def get_column(ws, col_index, nested = True):
+
+    '''gets a column from the ws'''
+    col = []
+    if nested:
+        for row in get_rows(ws):
+            col.append([ row[col_index] ] )
+
+    else:
+        for row in get_rows(ws):
+            col.append( row[col_index] )
+    return col
+
 
 def get_df_from_ws(ws):
 
